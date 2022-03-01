@@ -1,30 +1,51 @@
-<template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+<template> 
+      <div class="app">
+         <h1 class="title" :title="text">Vue 3</h1>
+         <div class="title">Вывожу переменную в HTML: {{ text }}</div>
+         <post-form @create="createPost"/>
+         <post-list :posts="posts"/>
+      </div>
 </template>
 
+<script>
+   import PostForm from '@/components/PostForm.vue';
+   import PostList from '@/components/PostList.vue';
+   export default {
+      components: {
+         PostForm,
+         PostList,
+      },
+      data() {
+         return {
+            text: "Привет, я описание и заголовок страницы",
+            posts: [
+               {id: 0, title: 'Vue.js 1', body: 'Описание поста 1'},
+               {id: 1, title: 'Vue.js 2', body: 'Описание поста 2'},
+               {id: 2, title: 'Vue.js 3', body: 'Описание поста 3'},
+            ],
+         }
+      },
+      methods: {
+         createPost(post) {
+            this.posts.push(post);
+         },
+      }
+   }
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+   *{
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+   }
 
-nav {
-  padding: 30px;
-}
+   .app{
+      padding: 20px;
+   }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
+   .title{
+      text-align: center;
+      font-size: 50px;
+   }
 </style>
