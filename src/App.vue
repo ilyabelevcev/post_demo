@@ -1,7 +1,5 @@
 <template> 
       <div class="app">
-         <h1 class="title" :title="text">Vue 3</h1>
-         <div class="title">Вывожу переменную в HTML: {{ text }}</div>
          <post-form @create="createPost"/>
          <post-list :posts="posts"/>
       </div>
@@ -17,7 +15,6 @@
       },
       data() {
          return {
-            text: "Привет, я описание и заголовок страницы",
             posts: [
                {id: 0, title: 'Vue.js 1', body: 'Описание поста 1'},
                {id: 1, title: 'Vue.js 2', body: 'Описание поста 2'},
