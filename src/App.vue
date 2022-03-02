@@ -1,9 +1,6 @@
 <template> 
       <div class="app">
          <h1>Страница с постами</h1>
-         <my-button @click="fetchPosts">
-            Полчусить посты
-         </my-button>
          <my-button 
             style="margin: 15px 0px;"
             @click="showDialog">
@@ -16,8 +13,20 @@
          </my-dialog>
          <post-list 
             :posts="posts"
-            @remove="removePost"   
+            @remove="removePost"
+            v-if="isPostLoading !== true"   
          />
+         <div v-else>Идёт загрузка...</div>
+         <div class="page__wrapper">
+            <div
+               v-for="pageNumber in totalPages"
+               class="page"
+               :key="pageNumber"
+               :class="{'current-page': page === pageNumber}"
+               @click="changePage(pageNumber)">
+               {{ pageNumber }}
+            </div>
+         </div>
       </div>
 </template>
 
@@ -32,12 +41,12 @@
       },
       data() {
          return {
-            posts: [
-               {id: 0, title: 'Vue.js 1', body: 'Описание поста 1'},
-               {id: 1, title: 'Vue.js 2', body: 'Описание поста 2'},
-               {id: 2, title: 'Vue.js 3', body: 'Описание поста 3'},
-            ],
-            dialogVisible: false
+            posts: [],
+            dialogVisible: false,
+            isPostLoading: false,
+            page: 1,
+            limit: 15,
+            totalPages: 0,
          }
       },
       methods: {
@@ -51,13 +60,33 @@
          showDialog() {
             this.dialogVisible = true;
          },
+         changePage(pageNumber) {
+            this.page = pageNumber;
+         },
          async fetchPosts() {
             try {
-               const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10')
-               console.log(response)
+               this.isPostLoading = true;
+               const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
+                  params: {
+                     _page: this.page,
+                     _limit: this.limit,
+                  }
+               });
+               this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit);
+               this.posts = response.data;
             } catch (e) {
                alert('Ошибка')
-            };
+            } finally {
+               this.isPostLoading = false;
+            }
+         },
+      },
+      mounted() {
+         this.fetchPosts();
+      },
+      watch: {
+         page() {
+            this.fetchPosts()
          }
       }
    }
@@ -69,13 +98,22 @@
       margin: 0;
       padding: 0;
    }
-
    .app{
       padding: 20px;
    }
-
    .title{
       text-align: center;
       font-size: 50px;
+   }
+   .page__wrapper{
+      display: flex;
+      margin-top: 10px;
+   }
+   .page{
+      border: 1px solid #000;
+      padding: 10px;
+   }
+   .current-page{
+      border: 2px solid teal;
    }
 </style>
