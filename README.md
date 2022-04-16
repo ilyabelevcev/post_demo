@@ -1,19 +1,32 @@
-# post_demo
+# Post_demo - SPA-приложение по добавлению и удалению постов
 
-## Project setup
+## Установка
 ```
 npm install
 ```
-
-### Compiles and hot-reloads for development
+### Запуск сервера
 ```
 npm run serve
 ```
-
-### Compiles and minifies for production
+### Запуск сборки
 ```
 npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+```  
+## Технологии:
+  HTML,CSS,JavaScript,Vue.js,VueRouter,Vue CLI.
+## Описание:
+  ```
+  ВНИМАНИЕ!  
+  На текущий момент времени приложение не имеет всех запланированных функций.  
+  Например: Сортировка постов(по назв. или по опис.), получение индивидуальной страницы поста.
+  ```
+  SPA - приложение реализованное с помощью JS-фреймворка Vue.js 3 версии. 
+  Функционал:  
+  При нажатии на кнопку добавления поста появляется модальное окно с двумя input(полями ввода названия и описания поста).  
+  При нажатии на поле за границами модального окна, оно закрывается.  
+  Посты добавляются в массив постов при помощи метода push(в конец)-
+  Так же посты получаеются при помощи axios.
+### Created by:  
+Ilya Belevcev  
+ilyabelevcev00@gmail.com  
+http://www.linkedin.com/in/ilyabelevcev
